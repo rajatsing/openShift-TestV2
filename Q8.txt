@@ -1,6 +1,6 @@
 Create a pod and create pvc for it and store some files in it
 
-I didn't what you meant by store some files in it.
+I didn't understood what you meant by store some files in it.
 
 Followed this for assistant https://docs.openshift.com/enterprise/3.1/dev_guide/persistent_volumes.html#requesting-storage
 

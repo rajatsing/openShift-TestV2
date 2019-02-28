@@ -11,5 +11,5 @@ oc get is (this command will list the image stream that are being created).In ou
 
 oc new-app --name hello rubyred~https://github.com/sclorg/ruby-ex
 
-~ notation ensures that the app uses rubyred as the base image and then use fetch the source code from the link given.
+~ (telda) notation ensures that the app uses rubyred as the base image and then use fetch the source code from the link given.
 

@@ -6,7 +6,7 @@ oc new-project q2 (new project creation)
 
 oc get template -n openshift | grep nodejs-mongo-persistent  (This command will list the desired template if available)
 oc export template/nodejs-mongo-persistent -n openshift > my-template.yaml (This command will export the template to a yaml file)
-oc create -f my-template.yaml
+oc create -f my-template.yaml(adding the template to the project)
 oc new-app --file my-template.yaml (creating a new app with that yaml file)
 oc expose route svc/my-template --hostname=server.lab.mytemplate.com (deploying the app on a server)
 You can access the app using the curl http://server.lab.mytemplate.com

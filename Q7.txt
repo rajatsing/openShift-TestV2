@@ -1,3 +1,11 @@
 Write deploymentconfig which has init container which creates a file and that file is accessible in main container of deployment.
 
 
+Init containers are type of containers that only runs to get executed no matter what and if it fails to run
+kubernetes will re start the pod.
+
+Init containers can be used for things like 
+waiting for a service.
+
+We can edit the Yaml file and add parameter
+initContainers to give the details of initContainers.
