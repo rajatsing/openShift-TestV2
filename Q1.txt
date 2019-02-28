@@ -1,0 +1,6 @@
+Q1 
+Deploy application from git repo, https://github.com/sclorg/ruby-ex 
+The commands are as follows
+Oc login -u developer -p redhat
+Oc new-project ques1
+Oc new-app --name q1 https://github.com/sclorg/ruby-ex
