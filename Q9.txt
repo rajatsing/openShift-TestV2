@@ -1,0 +1,17 @@
+Create a job which has 3 parallel jobs
+
+I followed this link for this question
+https://blog.openshift.com/openshift-jobs/
+and 
+https://docs.openshift.com/container-platform/3.5/dev_guide/jobs.html
+
+The  above links says that using 
+parallelism is an option to describe how many pods needs to be run at a time
+
+oc create -f ques9job.yaml 
+(This command will create a job pi)
+
+oc describe job ques9job.yaml | grep parallelism (This command will describe how many pods can be run at a time)
+
+
+So for running 3 pods at once, we will edit the yaml file and change the parallel:3. Now, this job will run 3 pods in parallel.

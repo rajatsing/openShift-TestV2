@@ -1,0 +1,14 @@
+Create a configmap and use it in a pod as env and volume both.
+
+oc login -u developer -p redhat
+oc create project q5
+oc new-app --name ques5 https://github.com/somerepo
+
+oc get pods (this command will list the pods )
+Lets say podname be ques5-abc123
+
+oc create cm configques --from-literal DATABASE_NAME="student" (this command will create a Configmap)
+
+oc set env dc/ques5 --from cm/configques (setting configmap as environment)
+
+oc set volume dc/ques5 --add -t configmap -m  /path/to/mount/volume --name ques5-cmvolume --configmap-name configques (setting configmap as volume)

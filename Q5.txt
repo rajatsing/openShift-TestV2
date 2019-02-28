@@ -1,0 +1,14 @@
+Create a secret and use it in a pod as env and volume both.
+
+oc login -u developer -p redhat
+oc create project q5
+oc new-app --name ques5 https://github.com/somerepo
+
+oc get pods (this command will list the pods )
+Lets say podname be ques5-abc123
+
+oc create generic secret sercetques --from-file /path/to/file.txt (above command will create a secret from the given text file that can be used as an env and volume)
+
+oc set env dc/ques5 --from secret/sercetques (setting secret as environment)
+
+oc set volume dc/ques5 --add -t secret -m /path/to/mount --name ques5-secretvolume --secret-name sercetques (setting secret as volume)

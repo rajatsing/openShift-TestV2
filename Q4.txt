@@ -1,0 +1,15 @@
+Create image stream `rubyred ` in your namespace which points to ruby images and deploy https://github.com/sclorg/ruby-ex using `rubyred`
+
+
+oc login -u developer -p redhat
+
+oc new-project q4
+
+oc import-image rubyred --confirm --from https://server.lab.example.com/ruby-ex --insecure (this command will host an image stream in our project,the name will be rubyred)
+
+oc get is (this command will list the image stream that are being created).In our case It'll display rubyred along with other details.
+
+oc new-app --name hello rubyred~https://github.com/sclorg/ruby-ex
+
+~ notation ensures that the app uses rubyred as the base image and then use fetch the source code from the link given.
+

@@ -1,0 +1,6 @@
+BuildConfig Resources 
+These are the resources or quotas like memory required,storage that will be required during the build by the pods.
+
+Build
+Build is a process that will take buildConfig values as an input and will generate an output based on those values.
+BuildConfig containes a set of commands/triggers that will be triggered when build happens such as ONBUILD,RUN,COPY.

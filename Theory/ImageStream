@@ -1,0 +1,6 @@
+The main use of image stream is to provide short name for a container image.
+It also has a TAG that points directly to an image version.
+
+oc import-image httpd --from server.lab.example.com/do288-httpd
+
+(above command will create an image stream for the container image do288-httpd as httpd)

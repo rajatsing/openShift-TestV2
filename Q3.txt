@@ -1,0 +1,14 @@
+Deploy beta4 branch of  https://github.com/openshift/ruby-hello-world 
+
+oc login -u developer -p redhat
+oc new-project q3
+
+oc new-app https://github.com/openshift/ruby-hello-world#beta4 
+
+( Since I didn't knew to do it so I scrolled down this issue  and found the above command
+https://github.com/openshift/origin/issues/13933)
+
+oc expose svc/ruby-hello-world --hostname=server.lab.rubyhelloworld (this command will expose the app on the given hostname)
+
+You can expose the app using 
+curl http://server.lab.rubyhelloworld

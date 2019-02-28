@@ -1,0 +1,31 @@
+Create a pod and create pvc for it and store some files in it
+
+I didn't what you meant by store some files in it.
+
+Followed this for assistant https://docs.openshift.com/enterprise/3.1/dev_guide/persistent_volumes.html#requesting-storage
+
+oc login -u developer -p redhat
+oc create project q8 (creating a project first)
+
+Create a template for PersistentVolume with as 
+kind:PersistentVolume
+name: q8-pv
+
+oc create -f q8-pv.yaml (this command will create a PV in our project) 
+
+Create a template for PersistentVolume Claim
+kind: PersistentVolumeClaim
+name:q8-pvc
+
+oc create -f q8-pvc.yaml (this will create a PVC in our project)
+
+Create a template for pod
+kind: pod
+name: q8-pod
+provide the PersistentVolumeClaim that you just created in the yaml file so that this pod will use this PVC
+
+oc create -f q8-pod.yaml (adding the yaml file to our project)
+
+oc new-app --file q8-pod.yaml
+
+

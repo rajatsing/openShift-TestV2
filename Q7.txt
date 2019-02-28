@@ -1,0 +1,3 @@
+Write deploymentconfig which has init container which creates a file and that file is accessible in main container of deployment.
+
+

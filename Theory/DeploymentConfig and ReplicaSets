@@ -1,0 +1,3 @@
+Deployment config or DC containes the scripts/triggers that needs to be run when an app gets deployed on a server.
+
+replicaSet tells that at a time how many replica of a pod is running without any issues.

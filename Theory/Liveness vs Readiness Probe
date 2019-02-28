@@ -1,0 +1,8 @@
+Similarities
+1. Both are use for monitoring health of a pod
+2. Both will check for health of a pod and will stop the functionality of a pod in different manners if a pod becomes un healthy.
+
+Differences
+
+1.Readiness probe checks if a pod if a pod is READY to take requests. Weather Probe checks if a pod is RUNNING without any problem.
+2.readiness will remove the IP address of the container whereas Liveness will kill the pod and redeploy.
