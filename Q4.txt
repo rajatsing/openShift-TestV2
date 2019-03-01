@@ -1,15 +1,45 @@
 Create image stream `rubyred ` in your namespace which points to ruby images and deploy https://github.com/sclorg/ruby-ex using `rubyred`
 
-
 oc login -u developer -p redhat
 
-oc new-project q4
+➜  ~ oc new-project q4
 
-oc import-image rubyred --confirm --from https://server.lab.example.com/ruby-ex --insecure (this command will host an image stream in our project,the name will be rubyred)
+Now using project "q4" on server "https://192.168.42.70:8443".
 
-oc get is (this command will list the image stream that are being created).In our case It'll display rubyred along with other details.
+You can add applications to this project with the 'new-app' command. For example, try:
 
-oc new-app --name hello rubyred~https://github.com/sclorg/ruby-ex
+    oc new-app centos/ruby-25-centos7~https://github.com/sclorg/ruby-ex.git
 
-~ (telda) notation ensures that the app uses rubyred as the base image and then use fetch the source code from the link given.
+to build a new example application in Ruby.
 
+➜  ~  oc import-image rubyred --from=docker.io/openshift/ruby-20-centos7 --confirm
+imagestream.image.openshift.io/rubyred imported
+
+Name:			rubyred
+Namespace:		q4
+Created:		1 second ago
+Labels:			<none>
+Annotations:		openshift.io/image.dockerRepositoryCheck=2019-03-01T12:50:45Z
+Docker Pull Spec:	172.30.1.1:5000/q4/rubyred
+Image Lookup:		local=false
+Unique Images:		1
+Tags:			1
+
+➜  ~ oc new-app --name hello rubyred~https://github.com/sclorg/ruby-ex
+
+--> Found image 54ccc57 (2 years old) in image stream "q4/rubyred" under tag "latest" for "rubyred"
+
+    Ruby 2.0 
+    -------- 
+    Platform for building and running Ruby 2.0 applications
+
+    Tags: builder, ruby, ruby20
+
+    * A source build using source code from https://github.com/sclorg/ruby-ex will be created
+      * The resulting image will be pushed to image stream tag "hello:latest"
+      * Use 'start-build' to trigger a new build
+    * This image will be deployed in deployment config "hello"
+    * Port 8080/tcp will be load balanced by service "hello"
+      * Other containers can access this service through the hostname "hello"
+➜  ~ oc expose svc/hello 
+route.route.openshift.io/hello exposed

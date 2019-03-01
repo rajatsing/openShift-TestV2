@@ -1,14 +1,39 @@
 Create a secret and use it in a pod as env and volume both.
 
 oc login -u developer -p redhat
-oc create project q5
-oc new-app --name ques5 https://github.com/somerepo
 
-oc get pods (this command will list the pods )
-Lets say podname be ques5-abc123
 
-oc create generic secret sercetques --from-file /path/to/file.txt (above command will create a secret from the given text file that can be used as an env and volume)
+➜  ~ oc new-project q5        
 
-oc set env dc/ques5 --from secret/sercetques (setting secret as environment)
+Now using project "q5" on server "https://192.168.42.70:8443".
 
-oc set volume dc/ques5 --add -t secret -m /path/to/mount --name ques5-secretvolume --secret-name sercetques (setting secret as volume)
+You can add applications to this project with the 'new-app' command. For example, try:
+
+    oc new-app centos/ruby-25-centos7~https://github.com/sclorg/ruby-ex.git
+
+to build a new example application in Ruby.
+
+➜  ~  oc new-app centos/ruby-25-centos7~https://github.com/sclorg/ruby-ex.git
+--> Found Docker image d4abb01 (2 weeks old) from Docker Hub for "centos/ruby-25-centos7"
+
+    Ruby 2.5 
+    -------- 
+    Ruby 2.5 available as container is a base platform for building and running various Ruby 2.5 applications and frameworks. Ruby is the interpreted scripting language for quick and easy object-oriented programming. It has many features to process text files and to do system management tasks (as in Perl). It is simple, straight-forward, and extensible......
+
+➜  ~ oc get pods      
+NAME              READY     STATUS    RESTARTS   AGE
+ruby-ex-1-build   1/1       Running   0          36s
+
+
+➜  ~ oc create secret generic creds --from-literal user=developer --from-literal password=password
+secret/creds created
+
+➜  ~ oc get secrets                                                                               
+NAME                       TYPE                                  DATA      AGE
+creds                      Opaque                                2         4s
+
+➜  ~ oc set env dc/ruby-ex --from secret/creds
+deploymentconfig.apps.openshift.io/ruby-ex updated
+
+➜  ~ oc set volume dc/ruby-ex --add -t secret -m /path/to/mount --name creds-volume --secret-name creds 
+deploymentconfig.apps.openshift.io/ruby-ex volume updated

@@ -1,14 +1,45 @@
 Create a configmap and use it in a pod as env and volume both.
 
+
 oc login -u developer -p redhat
-oc create project q5
-oc new-app --name ques5 https://github.com/somerepo
+➜  ~ oc new-project q6
+Now using project "q6" on server "https://192.168.42.70:8443".
 
-oc get pods (this command will list the pods )
-Lets say podname be ques5-abc123
+You can add applications to this project with the 'new-app' command. For example, try:
 
-oc create cm configques --from-literal DATABASE_NAME="student" (this command will create a Configmap)
+    oc new-app centos/ruby-25-centos7~https://github.com/sclorg/ruby-ex.git
 
-oc set env dc/ques5 --from cm/configques (setting configmap as environment)
+to build a new example application in Ruby.
 
-oc set volume dc/ques5 --add -t configmap -m  /path/to/mount/volume --name ques5-cmvolume --configmap-name configques (setting configmap as volume)
+
+➜  ~ oc new-app centos/ruby-25-centos7~https://github.com/sclorg/ruby-ex.git
+
+--> Found Docker image d4abb01 (2 weeks old) from Docker Hub for "centos/ruby-25-centos7"
+
+    Ruby 2.5 
+    -------- 
+    Ruby 2.5 available as container is a base platform for building and running various Ruby 2.5 applications and frameworks. Ruby is the interpreted scripting language for quick and easy object-oriented programming. It has many features to process text files and to do system management tasks (as in Perl). It is simple, straight-forward, and extensible.
+
+    Tags: builder, ruby, ruby25, rh-ruby25
+
+
+
+➜  ~ oc get pods                                                            
+NAME              READY     STATUS    RESTARTS   AGE
+ruby-ex-1-build   1/1       Running   0          23s
+
+
+➜  ~ oc create cm q6-config --from-literal DATABASE_NAME="student"
+configmap/q6-config created
+
+➜  ~ oc set env dc/ruby-ex --from cm/q6-config
+
+deploymentconfig.apps.openshift.io/ruby-ex updated
+
+➜  ~ oc get cm    
+NAME        DATA      AGE
+q6-config   1         2m
+
+
+➜  ~ oc set volume dc/ruby-ex --add -t configmap -m  /path/to/mount/volume --name ques6-volume --configmap-name q6-config
+deploymentconfig.apps.openshift.io/ruby-ex volume updated

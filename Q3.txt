@@ -1,14 +1,29 @@
 Deploy beta4 branch of  https://github.com/openshift/ruby-hello-world 
 
-oc login -u developer -p redhat
-oc new-project q3
+➜  ~ oc new-project q3
+Now using project "q3" on server "https://192.168.42.70:8443".
 
-oc new-app https://github.com/openshift/ruby-hello-world#beta4 
+You can add applications to this project with the 'new-app' command. For example, try:
 
-( Since I didn't knew to do it so I scrolled down this issue  and found the above command
-https://github.com/openshift/origin/issues/13933)
+    oc new-app centos/ruby-25-centos7~https://github.com/sclorg/ruby-ex.git
 
-oc expose svc/ruby-hello-world --hostname=server.lab.rubyhelloworld (this command will expose the app on the given hostname)
+to build a new example application in Ruby.
 
-You can expose the app using 
-curl http://server.lab.rubyhelloworld
+
+➜  ~ oc new-app https://github.com/openshift/ruby-hello-world\#beta4 
+--> Found Docker image e42d0dc (9 months old) from Docker Hub for "centos/ruby-22-centos7"
+
+    Ruby 2.2 
+    -------- 
+    Ruby 2.2 available as container is a base platform for building and running various Ruby 2.2 applications and frameworks. Ruby is the interpreted scripting language for quick and easy object-oriented programming. It has many features to process text files and to do system management tasks (as in Perl). It is simple, straight-forward, and extensible...
+    .
+    .
+    . 
+
+➜  ~ oc expose svc/ruby-hello-world
+route.route.openshift.io/ruby-hello-world exposed
+
+➜  ~ oc get routes
+NAME               HOST/PORT                                  PATH      SERVICES           PORT       TERMINATION   WILDCARD
+ruby-hello-world   ruby-hello-world-q3.192.168.42.70.nip.io             ruby-hello-world   8080-tcp                 None
+

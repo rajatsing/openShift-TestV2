@@ -7,25 +7,58 @@ Followed this for assistant https://docs.openshift.com/enterprise/3.1/dev_guide/
 oc login -u developer -p redhat
 oc create project q8 (creating a project first)
 
-Create a template for PersistentVolume with as 
-kind:PersistentVolume
-name: q8-pv
+Template for PersistentVolume
 
-oc create -f q8-pv.yaml (this command will create a PV in our project) 
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: task-pv-volume
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data"
+
+➜  ~ oc create -f q8-pv.yaml
+persistentvolume/task-pv-volume created
 
 Create a template for PersistentVolume Claim
-kind: PersistentVolumeClaim
-name:q8-pvc
 
-oc create -f q8-pvc.yaml (this will create a PVC in our project)
+➜  ~ oc create -f q8-pvc.yaml
+persistentvolumeclaim/task-pv-claim created
+
 
 Create a template for pod
-kind: pod
-name: q8-pod
-provide the PersistentVolumeClaim that you just created in the yaml file so that this pod will use this PVC
 
-oc create -f q8-pod.yaml (adding the yaml file to our project)
+kind: Pod
+apiVersion: v1
+metadata:
+  name: task-pv-pod
+spec:
+  volumes:
+    - name: task-pv-storage
+      persistentVolumeClaim:
+       claimName: task-pv-claim
+  containers:
+    - name: task-pv-container
+      image: nginx
+      ports:
+        - containerPort: 80
+          name: "http-server"
+      volumeMounts:
+        - mountPath: "/usr/share/nginx/html"
+          name: task-pv-storage
 
-oc new-app --file q8-pod.yaml
+
+➜  ~ oc create -f pv-pod.yaml
+pod/task-pv-pod created
+➜  ~ oc get pods             
+NAME          READY     STATUS              RESTARTS   AGE
+task-pv-pod   0/1       Running   0          4s
 
 
