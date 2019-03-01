@@ -1,11 +1,64 @@
 Write deploymentconfig which has init container which creates a file and that file is accessible in main container of deployment.
 
+➜  ~ oc new-project q7
+Now using project "q7" on server "https://192.168.42.70:8443".
 
-Init containers are type of containers that only runs to get executed no matter what and if it fails to run
-kubernetes will re start the pod.
+You can add applications to this project with the 'new-app' command. For example, try:
 
-Init containers can be used for things like 
-waiting for a service.
+    oc new-app centos/ruby-25-centos7~https://github.com/sclorg/ruby-ex.git
 
-We can edit the Yaml file and add parameter
-initContainers to give the details of initContainers.
+to build a new example application in Ruby.
+
+
+Creating a yaml for the pod
+➜  ~ vim init-containers
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: init-demo
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    ports:
+    - containerPort: 80
+    volumeMounts:
+    - name: workdir
+      mountPath: /usr/share/nginx/html
+  # These containers are run during pod initialization
+  initContainers:
+  - name: install
+    image: busybox
+    command:
+    - wget
+    - "-O"
+    - "/work-dir/index.html"
+    - http://kubernetes.io
+    volumeMounts:
+    - name: workdir
+      mountPath: "/work-dir"
+
+➜  ~ oc create -f init-containers
+pod/init-demo created
+
+
+➜  ~ oc get pods                 
+NAME              READY     STATUS      RESTARTS   AGE
+init-demo         1/1       Running     0          1m
+
+
+Open the bash
+
+➜  ~ oc exec -it init-demo bash
+root@init-demo:/# 
+
+
+
+
+
+
+
+
+
+
